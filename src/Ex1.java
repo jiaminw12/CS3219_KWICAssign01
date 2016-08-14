@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Collections;
 
@@ -7,17 +8,18 @@ public class Ex1 {
     
     public static void main(String[] args) {
         // TODO code application logic here
-        ArrayList<String> allLines = new ArrayList<>();
-        Scanner sc = new Scanner(System.in);
-        while(sc.hasNextLine()){
-            String nextLine = sc.nextLine();
-            if(nextLine.equals("")){
-                break;
-            }
-            allLines.add(nextLine);
-        }
+        String wordsToIgnore = "";
+        String movieTitle = "";
         
-        printAllLines(analyseLine(allLines));
+        Scanner sc = new Scanner(System.in);
+       
+        wordsToIgnore = sc.nextLine();
+        movieTitle = sc.nextLine();
+        
+        ArrayList<String> wordToIgnoreArray = new ArrayList<>(Arrays.asList(splitWord(wordsToIgnore)));
+        ArrayList<String> movieTitleArray = new ArrayList<>(Arrays.asList(splitWord(movieTitle)));
+        
+        printAllLines(analyseLine(wordToIgnoreArray, movieTitleArray));
     }
     
     private static void printAllLines(ArrayList<String> newLines){
@@ -26,26 +28,25 @@ public class Ex1 {
             System.out.println(newLines.get(i));
         }
     }
-    
-    
-    private static ArrayList<String> analyseLine(ArrayList<String> allLines){
+     
+    private static ArrayList<String> analyseLine(ArrayList<String> wordsToIgnore, ArrayList<String> movieTitleArray){
         
         // final result
         ArrayList<String> newLines = new ArrayList<>();
         
-        for (int i = 0; i < allLines.size(); i++){
+        for (int i = 0; i < movieTitleArray.size(); i++){
             // Read lines by lines
-            String startLine = allLines.get(i);
+            String startLine = movieTitleArray.get(i).trim();
             
             String[] splitLine = startLine.split(" ");
             
             for (int j=0; j < splitLine.length; j++){
-                if(matchWord(splitLine[0])){
+                if(matchWord(wordsToIgnore, splitLine[0])){
                     // add and reverse
-                    splitLine = reverseString(allLines.get(i), splitLine[j]).split(" ");
+                    splitLine = reverseString(movieTitleArray.get(i), splitLine[j]).split(" ");
                 } else {
                     newLines.add(joinAllWords(splitLine));
-                    splitLine = reverseString(allLines.get(i), splitLine[j]).split(" ");
+                    splitLine = reverseString(movieTitleArray.get(i), splitLine[j]).split(" ");
                 }
             }
         }
@@ -73,40 +74,15 @@ public class Ex1 {
         return finalWord;
     }
     
-   private static boolean matchWord(String word){
+   private static boolean matchWord(ArrayList<String> wordsToIgnoreArray, String word){
        word = word.trim();
-   
-       // special words
-        if (word.equals("is")){
-            return true;
-        } 
-
-        if(word.equals("the")){
-            return true;
-        }
-
-        if(word.equals("of")){
-            return true;
-        }
-
-        if(word.equals("and")){
-            return true;
-        }
-
-        if(word.equals("as")){
-            return true;
-        }
-
-        if(word.equals("a")){
-            return true;
-        }
-
-        if(word.equals("after")){
-            return true;
-        } else {
-            return false;
-        }
-            
+       
+       for(int i=0; i<wordsToIgnoreArray.size(); i++){
+           if (word.equals(wordsToIgnoreArray.get(i))){
+               return true;
+           }
+       }
+       return false;    
    }
    
    private static String joinAllWords(String[] splitLine){
@@ -117,4 +93,7 @@ public class Ex1 {
         return temp;
    }
    
+   private static String[] splitWord(String stringToBeSplit){
+       return stringToBeSplit.split(",");
+   }
 }
