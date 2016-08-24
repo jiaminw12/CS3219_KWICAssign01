@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import jiamin.PipeAndFilter;
 
@@ -6,8 +7,9 @@ public class Main {
 
     private static void launchCLI() {
 
-        String wordsToIgnore = "";
-        String movieTitle = "";
+        String wordsToIgnore = "", movieTitle = "";
+        ArrayList<String> ignoreWordsArray = new ArrayList<>();
+        ArrayList<String> movieArray = new ArrayList<>();
 
         System.out.println("----- Welcom to KWIC System -----");
         System.out.println();
@@ -18,18 +20,31 @@ public class Main {
         System.out.println();
 
         System.out.println("----- Insert \"words to ignore\" -----");
-        wordsToIgnore = sc.nextLine();
-
-        System.out.println();
+        
+        while(true){
+           wordsToIgnore = sc.nextLine();
+           if (wordsToIgnore.equals("")){
+               break;
+           } else {
+               ignoreWordsArray.add(wordsToIgnore);
+           }
+        }
 
         System.out.println("----- Insert movie titles -----");
-        movieTitle = sc.nextLine();
         
-        System.out.println();
+        while(true){
+           movieTitle = sc.nextLine();
+           if (movieTitle.equals("")){
+               break;
+           } else {
+               movieArray.add(movieTitle);
+           }
+        }
+        
         System.out.println("----- Please choose 1 of the following architectures -----");
         System.out.println("1. Implicit Invocation");
         System.out.println("2. Pipe and Filter");
-        System.out.println("Press other keys to exit.");
+        System.out.println("3. Exit");
 
 
         while (true) {
@@ -38,12 +53,13 @@ public class Main {
             switch (option) {
                 case "1":
                     // implicit invocation
+                    break;
                 case "2":
                     // pipe and filter
                     PipeAndFilter pipeAndFilter = new PipeAndFilter();
-                    pipeAndFilter.startArc(wordsToIgnore, movieTitle);
-                default:
-                    //System.out.println("----- Program terminated. Thank You for using. -----");
+                    pipeAndFilter.startArc(ignoreWordsArray, movieArray);
+                    break;
+                case "3":
                     System.exit(0);
             }
         }

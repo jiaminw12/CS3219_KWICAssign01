@@ -1,8 +1,10 @@
 package jiamin;
 
+import java.util.ArrayList;
+
 public class PipeAndFilter {
 
-    public void startArc(String wordsToIgnore, String inputLines) {
+    public void startArc(ArrayList<String> wordsToIgnore, ArrayList<String> inputLines) {
         
         
         Pipe p1 = Pipe.getInstance();

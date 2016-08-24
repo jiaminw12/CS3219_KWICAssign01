@@ -5,13 +5,13 @@ import java.util.Arrays;
 
 public class Input extends Filter {
 
-    private String wordsToIgnore;
-    private String movieTitle;
+    private ArrayList<String> wordsToIgnore;
+    private ArrayList<String> movieTitle;
 
     public Input() {
     }
 
-    public Input(String wordsToIgnore, String movieTitle) {
+    public Input(ArrayList<String> wordsToIgnore, ArrayList<String> movieTitle) {
         this.wordsToIgnore = wordsToIgnore;
         this.movieTitle = movieTitle;
     }
@@ -21,13 +21,19 @@ public class Input extends Filter {
         if (wordsToIgnore == null || movieTitle == null) {
             return;
         } else {
-            write("ignored", new ArrayList<>(Arrays.asList(splitWord(wordsToIgnore))));
-            write("movies", new ArrayList<>(Arrays.asList(splitWord(movieTitle))));
+            write("ignored", splitWord(wordsToIgnore));
+            write("movies", splitWord(movieTitle));
         }
     }
 
-    private static String[] splitWord(String stringToBeSplit) {
-        return stringToBeSplit.split(",");
+    private static ArrayList<String> splitWord(ArrayList<String> stringToBeSplit) {
+        ArrayList<String> tempArray = new ArrayList<>();
+        for(int i=0; i<stringToBeSplit.size(); i++){
+            String[] temp =  stringToBeSplit.get(i).split(",");
+            tempArray.addAll(new ArrayList<>(Arrays.asList(temp)));
+        }
+        
+        return tempArray;
     }
 
 }

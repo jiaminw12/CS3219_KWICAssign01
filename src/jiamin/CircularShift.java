@@ -67,7 +67,11 @@ public class CircularShift extends Filter {
     private static String joinAllWords(String[] splitLine) {
         String temp = "";
         for (int z = 0; z < splitLine.length; z++) {
-            temp += splitLine[z] + " ";
+            if (z == splitLine.length-1){
+                temp += splitLine[z];
+            } else {
+                temp += splitLine[z] + " ";
+            }
         }
         return temp;
     }
