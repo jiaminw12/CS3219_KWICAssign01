@@ -1,13 +1,16 @@
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import jiamin.PipeAndFilter;
 
 public class Main {
 
-    private static void launchCLI() {
+    private static void launchCLI() throws IOException {
 
-        String wordsToIgnore = "", movieTitle = "";
+        String wordsToIgnorePath = "", movieTitlePath = "";
         ArrayList<String> ignoreWordsArray = new ArrayList<>();
         ArrayList<String> movieArray = new ArrayList<>();
 
@@ -16,36 +19,20 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("----- Insert the following lines by separating with \",\" -----");
+        System.out.println("----- Insert \"words to ignore\" path -----");
+        wordsToIgnorePath = sc.nextLine();
+        ignoreWordsArray = readFile(wordsToIgnorePath);
         System.out.println();
 
-        System.out.println("----- Insert \"words to ignore\" -----");
-        
-        while(true){
-           wordsToIgnore = sc.nextLine();
-           if (wordsToIgnore.equals("")){
-               break;
-           } else {
-               ignoreWordsArray.add(wordsToIgnore);
-           }
-        }
-
-        System.out.println("----- Insert movie titles -----");
-        
-        while(true){
-           movieTitle = sc.nextLine();
-           if (movieTitle.equals("")){
-               break;
-           } else {
-               movieArray.add(movieTitle);
-           }
-        }
+        System.out.println("----- Insert movie titles path -----");
+        movieTitlePath = sc.nextLine();
+        movieArray = readFile(movieTitlePath);
+        System.out.println();
         
         System.out.println("----- Please choose 1 of the following architectures -----");
         System.out.println("1. Implicit Invocation");
         System.out.println("2. Pipe and Filter");
-        System.out.println("3. Exit");
-
+        System.out.println("3. Exit\n");
 
         while (true) {
             String option = sc.next();
@@ -66,8 +53,18 @@ public class Main {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         launchCLI();
+    }
+
+    private static ArrayList<String> readFile(String fileName) throws IOException {
+        ArrayList<String> tempArray = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            tempArray.add(line);
+        }
+        return tempArray;
     }
 
 }
